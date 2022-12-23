@@ -10,12 +10,10 @@ class Pokedex:
     JsonSpriteFrontDefaultKey = "sprite_front_default_url"
     JsonSpriteHomeFrontDefaultKey = "sprite_home_front_default_url"
     JsonSpriteOfficialFrontDefaultKey = "sprite_official_front_default_url"
-    JsonTrainingImagesCountKey = "training_images_count"
-    JsonTestingImagesCountKey = "testing_images_count"
 
     def __init__(self):
         self.m_data = {}
-        self.m_maxPokemonNumber = 905 #3
+        self.m_maxPokemonNumber = 3 #905
         self.m_defaultJsonFileName = "./data/pokemon_data.json"
 
     def getGeneration(self, pokemonNumber):
@@ -43,7 +41,7 @@ class Pokedex:
             
         for pokemonNumber in range (1, self.m_maxPokemonNumber + 1):
             progressBar.next()
-
+            
             request = requests.get(f"https://pokeapi.co/api/v2/pokemon/{pokemonNumber}/")
             pokemonData = json.loads(request.content)
             generation = self.getGeneration(pokemonNumber)
@@ -52,12 +50,9 @@ class Pokedex:
                 Pokedex.JsonGenerationKey: generation,
                 Pokedex.JsonSpriteFrontDefaultKey: pokemonData["sprites"]["front_default"],
                 Pokedex.JsonSpriteHomeFrontDefaultKey: pokemonData["sprites"]["other"]["home"]["front_default"],
-                Pokedex.JsonSpriteOfficialFrontDefaultKey: pokemonData["sprites"]["other"]["official-artwork"]["front_default"],
-                Pokedex.JsonTrainingImagesCountKey: 0,
-                Pokedex.JsonTestingImagesCountKey: 0 }
+                Pokedex.JsonSpriteOfficialFrontDefaultKey: pokemonData["sprites"]["other"]["official-artwork"]["front_default"]}
 
     def saveDataToJsonFile(self, jsonFileName):
-
         with open(jsonFileName, 'w+', encoding='utf-8') as file:
             json.dump(self.m_data, file, indent=2, ensure_ascii=False)
 
@@ -72,7 +67,5 @@ class Pokedex:
     def autoInitialize(self):
         if os.path.exists(self.m_defaultJsonFileName):
             self.loadDataFromJsonFile(self.m_defaultJsonFileName)
-            print("Pokémon data loaded from Json file")
         else:
             self.retrieveDataAndSaveToJson()
-            print("Pokémon data retrieved from internet and saved to Json file")

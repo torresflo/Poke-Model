@@ -29,7 +29,7 @@ class PokemonSpriteCollector:
                 url = self.m_pokedex.m_data[pokemonNumber][key]
                 content = requests.get(url).content
                 image = Image.open(BytesIO(content)).convert('RGBA')
-                ImageSaver.saveImage(image, ImageSaver.DefaultTrainingDataFolderPath, self.m_pokedex, pokemonNumber, Pokedex.JsonTrainingImagesCountKey)
+                ImageSaver.saveImage(image, ImageSaver.DefaultTrainingDataFolderPath, pokemonNumber)
 
     def createFrontSpriteVariant(self, image : Image):
         backgroundColor = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
@@ -49,7 +49,7 @@ class BraveImageCollector:
     def __init__(self, pokedex : Pokedex):
         self.m_pokedex = pokedex
         self.m_browser = webdriver.Chrome("./DataCollection/chromedriver/chromedriver.exe")
-        self.m_piorURLs = []
+        self.m_priorURLs = []
 
     def getPokemonNameFromNumber(self, pokemonNumber):
         return self.m_pokedex.m_data[pokemonNumber][Pokedex.JsonNameKey]
@@ -72,12 +72,12 @@ class BraveImageCollector:
     def trySaveImages(self, pokemonNumber, imagesURLs, titles):
         pokemonName = self.getPokemonNameFromNumber(pokemonNumber)
         for imageURL, title in zip(imagesURLs, titles):
-            if pokemonName in title.lower() and imageURL not in self.m_piorURLs:
+            if pokemonName in title.lower() and imageURL not in self.m_priorURLs:
                 try:
                     content = requests.get(imageURL).content
                     image = Image.open(BytesIO(content)).convert("RGBA")
-                    ImageSaver.saveImage(image, ImageSaver.DefaultTrainingDataFolderPath, self.m_pokedex, pokemonNumber, Pokedex.JsonTrainingImagesCountKey)
-                    self.m_piorURLs.append(imageURL)
+                    ImageSaver.saveImage(image, ImageSaver.DefaultTrainingDataFolderPath, pokemonNumber)
+                    self.m_priorURLs.append(imageURL)
                 except:
                     continue
 
@@ -96,8 +96,8 @@ class BraveImageCollector:
 
         for pokemonNumber, item in self.m_pokedex.m_data.items():
             progressBar.next()
-
-            self.m_piorURLs = []
+            
+            self.m_priorURLs = []
             searchStrings = self.createSearchStrings(pokemonNumber)
             numberOfImagesToSavePerSearchString = (20, 5, 5)
             for searchString, numberOfImagesToSave in zip(searchStrings, numberOfImagesToSavePerSearchString):

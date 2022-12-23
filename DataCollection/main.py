@@ -1,7 +1,6 @@
 from PokemonData import Pokedex
-from ImageCollector import PokemonSpriteCollector, BraveImageCollector
-
-import time
+from ImageCollection import PokemonSpriteCollector, BraveImageCollector
+from ImageAugmentation import ImageAugmenter
 
 if __name__ == "__main__":
     pokedex = Pokedex()
@@ -10,7 +9,7 @@ if __name__ == "__main__":
     spriteCollector = PokemonSpriteCollector(pokedex)
     spriteCollector.retrieveAndSaveSprites()
 
-    # braveImageCollector = BraveImageCollector(pokedex)
-    # braveImageCollector.retrieveAndSaveSearchedImages()
+    braveImageCollector = BraveImageCollector(pokedex)
+    braveImageCollector.retrieveAndSaveSearchedImages()
 
-    exit()
+    ImageAugmenter.generateAndSaveAugmentedImages(pokedex)
