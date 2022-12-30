@@ -131,3 +131,4 @@ dmypy.json
 ##################### Project Specific ##################### 
 /data/
 /DataCollection/chromedriver
+/logs/
