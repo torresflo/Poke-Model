@@ -15,7 +15,7 @@ class Pokedex:
 
     def __init__(self):
         self.m_data = {}
-        self.m_maxPokemonNumber = 3 #905
+        self.m_maxPokemonNumber = 905
         self.m_defaultDataFolder = "./data"
         self.m_defaultJsonFileName = f"{self.m_defaultDataFolder}/pokemon_data.json"
 
