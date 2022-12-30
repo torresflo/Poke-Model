@@ -6,8 +6,8 @@ import cv2
 from PIL import Image, ImageOps, ImageFilter
 from progress.bar import ShadyBar
 
-from PokemonData import Pokedex
-from DataTools import ImageSaver
+from DataCollection.PokemonData import Pokedex
+from Utils.DataTools import DataSaver
 
 class ImageAugmenter:
     def quantizeImage(image : Image, amount):
@@ -61,17 +61,21 @@ class ImageAugmenter:
         for pokemonNumber, item in pokedex.m_data.items():
             progressBar.next()
 
-            trainingDataFolder = f"{ImageSaver.DefaultTrainingDataFolderPath}/{pokemonNumber}"
-            augmentationDataFolder = f"{ImageSaver.DefaultAugmentationDataFolderPath}/{pokemonNumber}"
+            trainingDataFolder = f"{DataSaver.DefaultTrainingDataFolderPath}/{pokemonNumber}"
+            augmentationDataFolder = f"{DataSaver.DefaultAugmentationDataFolderPath}/{pokemonNumber}"
             listOfImagesToAugment = os.listdir(trainingDataFolder)
 
             for imageName in listOfImagesToAugment:
-                imagePath = f"{ImageSaver.DefaultTrainingDataFolderPath}/{pokemonNumber}/{imageName}"
-                ImageSaver.saveImage(Image.open(imagePath), ImageSaver.DefaultAugmentationDataFolderPath, pokemonNumber)
+                imagePath = f"{DataSaver.DefaultTrainingDataFolderPath}/{pokemonNumber}/{imageName}"
+                DataSaver.saveImage(Image.open(imagePath), DataSaver.DefaultAugmentationDataFolderPath, pokemonNumber)
 
             for i in range(200):
                 randomImageIndex = random.randint(0, len(listOfImagesToAugment) - 1)
-                randomImagePath = f"{ImageSaver.DefaultTrainingDataFolderPath}/{pokemonNumber}/{listOfImagesToAugment[randomImageIndex]}"
+                randomImagePath = f"{DataSaver.DefaultTrainingDataFolderPath}/{pokemonNumber}/{listOfImagesToAugment[randomImageIndex]}"
                 augmentedImage = ImageAugmenter.getImageWithRandomAugmentation(Image.open(randomImagePath))
-                ImageSaver.saveImage(augmentedImage, ImageSaver.DefaultAugmentationDataFolderPath, pokemonNumber)
+                
+                if i < 180:
+                    DataSaver.saveImage(augmentedImage, DataSaver.DefaultAugmentationDataFolderPath, pokemonNumber)
+                else:
+                    DataSaver.saveImage(augmentedImage, DataSaver.DefaultTestDataFolderPath, pokemonNumber) # Generate some test data
 

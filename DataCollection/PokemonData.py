@@ -4,6 +4,8 @@ import os
 
 from progress.bar import ShadyBar
 
+from Utils.DataTools import DataSaver
+
 class Pokedex:
     JsonNameKey = "name"
     JsonGenerationKey = "generation"
@@ -14,7 +16,8 @@ class Pokedex:
     def __init__(self):
         self.m_data = {}
         self.m_maxPokemonNumber = 3 #905
-        self.m_defaultJsonFileName = "./data/pokemon_data.json"
+        self.m_defaultDataFolder = "./data"
+        self.m_defaultJsonFileName = f"{self.m_defaultDataFolder}/pokemon_data.json"
 
     def getGeneration(self, pokemonNumber):
         if pokemonNumber <= 151:
@@ -62,6 +65,7 @@ class Pokedex:
 
     def retrieveDataAndSaveToJson(self):
         self.retrieveData()
+        DataSaver.createFolder(self.m_defaultDataFolder)
         self.saveDataToJsonFile(self.m_defaultJsonFileName)
 
     def autoInitialize(self):

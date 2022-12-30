@@ -10,8 +10,8 @@ from progress.bar import ShadyBar
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-from PokemonData import Pokedex
-from DataTools import ImageSaver 
+from DataCollection.PokemonData import Pokedex
+from Utils.DataTools import DataSaver
 
 import time
 
@@ -29,7 +29,7 @@ class PokemonSpriteCollector:
                 url = self.m_pokedex.m_data[pokemonNumber][key]
                 content = requests.get(url).content
                 image = Image.open(BytesIO(content)).convert('RGBA')
-                ImageSaver.saveImage(image, ImageSaver.DefaultTrainingDataFolderPath, pokemonNumber)
+                DataSaver.saveImage(image, DataSaver.DefaultTrainingDataFolderPath, pokemonNumber)
 
     def createFrontSpriteVariant(self, image : Image):
         backgroundColor = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
@@ -76,7 +76,7 @@ class BraveImageCollector:
                 try:
                     content = requests.get(imageURL).content
                     image = Image.open(BytesIO(content)).convert("RGBA")
-                    ImageSaver.saveImage(image, ImageSaver.DefaultTrainingDataFolderPath, pokemonNumber)
+                    DataSaver.saveImage(image, DataSaver.DefaultTrainingDataFolderPath, pokemonNumber)
                     self.m_priorURLs.append(imageURL)
                 except:
                     continue
