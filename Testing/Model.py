@@ -9,7 +9,7 @@ class PokemonModel:
         print("Loading model...")
         self.m_featureExtractor = ViTFeatureExtractor.from_pretrained('google/vit-base-patch16-224')
         self.m_model = ViTForImageClassification.from_pretrained('./data/model/epoch_5').to(self.m_device)
-        print("Model loaded...")
+        print("Model loaded")
 
     def computePredictions(self, fileName, maxNumberOfPredictions=5):
         with Image.open(fileName).convert("RGB") as image:
@@ -20,6 +20,7 @@ class PokemonModel:
             topPredictedProbabilites, topPredictedClasses = torch.topk(logits, maxNumberOfPredictions)
             topPredictedClasses = topPredictedClasses[0].tolist()
             topPredictedProbabilites = topPredictedProbabilites[0].tolist()
+
             predictions = []
             for predictedClass, predictedProbability in zip(topPredictedClasses, topPredictedProbabilites):
                 predictedPokemon = self.m_model.config.id2label[predictedClass]

@@ -1,4 +1,4 @@
-from PySide6 import QtCore, QtWidgets
+from PySide6 import QtCore, QtWidgets, QtGui
 
 from Model import PokemonModel
 
@@ -8,14 +8,20 @@ class MainWindow(QtWidgets.QWidget):
 
         self.m_fileName = ""
         self.m_predictionModel = PokemonModel()
-        self.m_selectFileButton = QtWidgets.QPushButton("Select file...")
+        self.m_selectFileButton = QtWidgets.QPushButton("Select image...")
+        self.m_selectedImageLabel = QtWidgets.QLabel("Please select an image.")
         self.m_classifyImageButton = QtWidgets.QPushButton("Classify image")
         self.m_resultTextEdit = QtWidgets.QTextEdit()
 
+        self.m_selectedImageLabel.setMaximumHeight(300)
+        self.m_resultTextEdit.setMaximumHeight(6 * self.m_resultTextEdit.fontMetrics().lineSpacing())
+
         self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.addWidget(self.m_selectFileButton)
+        self.layout.addWidget(self.m_selectedImageLabel)
         self.layout.addWidget(self.m_classifyImageButton)
         self.layout.addWidget(self.m_resultTextEdit)
+        self.layout.setSizeConstraint(QtWidgets.QLayout.SetFixedSize)
 
         self.m_selectFileButton.clicked.connect(self.onSelectFileButtonClicked)
         self.m_classifyImageButton.clicked.connect(self.onClassifyImageButtonClicked)
@@ -26,7 +32,8 @@ class MainWindow(QtWidgets.QWidget):
         fileInfo = QtCore.QFileInfo(fileName)
         if fileInfo.exists() and fileInfo.isFile():
             self.m_fileName = fileName
-            print(f"Selected file: {fileName}")
+            pixmap = QtGui.QPixmap(fileName).scaledToHeight(self.m_selectedImageLabel.maximumHeight())
+            self.m_selectedImageLabel.setPixmap(pixmap)
 
     @QtCore.Slot()
     def onClassifyImageButtonClicked(self):
