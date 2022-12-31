@@ -8,17 +8,21 @@ class PokemonModel:
 
         print("Loading model...")
         self.m_featureExtractor = ViTFeatureExtractor.from_pretrained('google/vit-base-patch16-224')
-        self.m_model = ViTForImageClassification.from_pretrained('./data/model/epoch_4').to(self.m_device)
+        self.m_model = ViTForImageClassification.from_pretrained('./data/model/epoch_5').to(self.m_device)
         print("Model loaded...")
 
-    def computePrediction(self, fileName):
+    def computePredictions(self, fileName, maxNumberOfPredictions=5):
         with Image.open(fileName).convert("RGB") as image:
             inputs = self.m_featureExtractor(images=image, return_tensors="pt").to(self.m_device)
             outputs = self.m_model(**inputs)
-            logits = outputs.logits
+            logits = outputs.logits.softmax(dim=1)
                 
-            predictedClass = logits.argmax(-1).item()
-            predictedPokemon = self.m_model.config.id2label[predictedClass]
-            predictionProbability = logits.softmax(dim=1).max().item() * 100.0
-
-            return [predictedPokemon, predictionProbability]
+            topPredictedProbabilites, topPredictedClasses = torch.topk(logits, maxNumberOfPredictions)
+            topPredictedClasses = topPredictedClasses[0].tolist()
+            topPredictedProbabilites = topPredictedProbabilites[0].tolist()
+            predictions = []
+            for predictedClass, predictedProbability in zip(topPredictedClasses, topPredictedProbabilites):
+                predictedPokemon = self.m_model.config.id2label[predictedClass]
+                predictions.append([predictedPokemon, round(predictedProbability * 100, 2)])
+            
+            return predictions

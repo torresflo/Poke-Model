@@ -38,9 +38,6 @@ class PokemonClassifier(lightning.LightningModule):
             id2Label[index] = pokemonName
             label2Id[pokemonName] = index
 
-        print(id2Label)
-        print(label2Id)
-
         self.m_model.config.id2label = id2Label
         self.m_model.config.label2id = label2Id
 
@@ -59,7 +56,7 @@ class PokemonClassifier(lightning.LightningModule):
 
     # Overriden methods from LightningModule
     def prepare_data(self):
-        trainData = tuple(self.getDatasets(DataSaver.DefaultTrainingDataFolderPath))
+        trainData = tuple(self.getDatasets(DataSaver.DefaultAugmentationDataFolderPath))
         self.m_trainDataset = torch.utils.data.random_split(trainData, [len(trainData), 0])[0]
         testData = tuple(self.getDatasets(DataSaver.DefaultTestDataFolderPath))
         self.m_testDataset = torch.utils.data.random_split(testData, [len(testData), 0])[0]
@@ -82,10 +79,10 @@ class PokemonClassifier(lightning.LightningModule):
         self.log("val_loss", loss)
 
     def train_dataloader(self):
-        return torch.utils.data.DataLoader(self.m_trainDataset, batch_size=self.m_batchSize, drop_last=True, shuffle=True, num_workers=12)
+        return torch.utils.data.DataLoader(self.m_trainDataset, batch_size=self.m_batchSize, drop_last=True, shuffle=True, num_workers=0)
 
     def val_dataloader(self):
-        return torch.utils.data.DataLoader(self.m_testDataset, batch_size=self.m_batchSize, drop_last=False, shuffle=False, num_workers=12)
+        return torch.utils.data.DataLoader(self.m_testDataset, batch_size=self.m_batchSize, drop_last=False, shuffle=False, num_workers=0)
 
     def configure_optimizers(self):
         return AdamW(self.parameters(), lr=self.m_lr, weight_decay=0.01)

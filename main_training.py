@@ -14,7 +14,7 @@ if __name__ == "__main__":
         precision="bf16",
         default_root_dir="logs",
         gpus=-1,
-        max_epochs=5,
+        max_epochs=6,
         callbacks=[SaveCallback()],
         val_check_interval=0.1,
         logger=TensorBoardLogger("logs/", name='vit_with_augmentation', version=0)

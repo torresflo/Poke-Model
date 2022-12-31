@@ -10,12 +10,12 @@ class MainWindow(QtWidgets.QWidget):
         self.m_predictionModel = PokemonModel()
         self.m_selectFileButton = QtWidgets.QPushButton("Select file...")
         self.m_classifyImageButton = QtWidgets.QPushButton("Classify image")
-        self.m_resultLineEdit = QtWidgets.QLineEdit()
+        self.m_resultTextEdit = QtWidgets.QTextEdit()
 
         self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.addWidget(self.m_selectFileButton)
         self.layout.addWidget(self.m_classifyImageButton)
-        self.layout.addWidget(self.m_resultLineEdit)
+        self.layout.addWidget(self.m_resultTextEdit)
 
         self.m_selectFileButton.clicked.connect(self.onSelectFileButtonClicked)
         self.m_classifyImageButton.clicked.connect(self.onClassifyImageButtonClicked)
@@ -31,7 +31,8 @@ class MainWindow(QtWidgets.QWidget):
     @QtCore.Slot()
     def onClassifyImageButtonClicked(self):
         if self.m_fileName:
-            print("Starting prediction...")
-            predictedPokemon, predictionProbability = self.m_predictionModel.computePrediction(self.m_fileName)
-            self.m_resultLineEdit.setText(f"{predictedPokemon} => {predictionProbability}")
+            self.m_resultTextEdit.clear()
+            predictions = self.m_predictionModel.computePredictions(self.m_fileName)
+            for pokemon, probabilty in predictions:
+                self.m_resultTextEdit.append(f"{pokemon} => {probabilty}%")
         
