@@ -89,7 +89,8 @@ class BraveImageCollector:
             imageURLs, titles = zip(*elements)
             self.trySaveImages(pokemonNumber, imageURLs, titles)
         else:
-            time.sleep(30)
+            time.sleep(60) # Wait time to fill the captcha & recall the method with same parameters
+            self.requestAndSaveImages(searchString, numberOfImagesToSave, pokemonNumber)
 
     def retrieveAndSaveSearchedImages(self):
         progressBar = ShadyBar("Retrieving Pokémon Images from Brave...", max = len(self.m_pokedex.m_data))
