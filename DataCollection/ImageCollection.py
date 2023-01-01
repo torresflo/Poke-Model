@@ -20,7 +20,7 @@ class PokemonSpriteCollector:
         self.m_pokedex = pokedex
 
     def retrieveAndSaveSprites(self):
-        progressBar = ShadyBar("Retrieving Pokémon Front Sprites...", max = len(self.m_pokedex.m_data))
+        progressBar = ShadyBar("Retrieving Pokémon Sprites...", max = len(self.m_pokedex.m_data))
 
         for pokemonNumber, item in self.m_pokedex.m_data.items():
             progressBar.next()
