@@ -48,6 +48,7 @@ Depending of the scripts you want to execute, you need to instal various package
 
 For the data collection scripts, the following packages are required :
 - *selenium* is used to do search and retrieve images from the browser Chrome (you need to put the chrome driver executable in the folder `DataCollection/chromedriver`)
+- *pillow* is used to load and manipulate images.
 - *cv2* is used to perform transformations on images.
 - *progress* is used to feedback progression with beautiful progress bars.
 
@@ -56,6 +57,7 @@ For the data collection scripts, the following packages are required :
 For the training scripts, the following packages are required :
 - *pytorch-lightning* (and *torch*) are used to manipulate the model
 - *transformers* is used for the model
+- *pillow* is used to load and manipulate images.
 - *progress* is used to feedback progression with beautiful progress bars.
 
 **Testing**
@@ -64,6 +66,7 @@ For the training scripts, the following packages are required :
 - *PySide6* is used for the user interface
 - *torch* is used to manipulate the model
 - *transformers* is used for the model
+- *pillow* is used to load and manipulate images.
 
 All packages can be installed with the regular:
 
