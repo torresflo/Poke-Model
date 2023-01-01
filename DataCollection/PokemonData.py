@@ -60,7 +60,7 @@ class Pokedex:
             json.dump(self.m_data, file, indent=2, ensure_ascii=False)
 
     def loadDataFromJsonFile(self, jsonFileName):
-        with open(jsonFileName, 'r') as file:
+        with open(jsonFileName, 'r', encoding='utf-8') as file:
             self.m_data = json.load(file)
 
     def retrieveDataAndSaveToJson(self):
