@@ -90,7 +90,7 @@ Training is performed by using <a href="https://www.pytorchlightning.ai/">PyTorc
 
 Here is a screenshot of the test program (`Testing\main.py`):
 
-![Example image](https://github.com/torresflo/Poke-Model/blob/main/examples/Example1.png)
+![Example image](https://raw.githubusercontent.com/torresflo/Poke-Model/main/examples/example1.png)
 
 ## Contributing
 
