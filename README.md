@@ -25,13 +25,15 @@
 
 ## Introduction
 
-This repository is **heavily** inspired by the project <a href="https://github.com/imjeffhi4/pokemon-classifier">pokemon-classifier by imjeffhi4</a>, check it out!
+This repository is **heavily** inspired by the project [pokemon-classifier by imjeffhi4](https://github.com/imjeffhi4/pokemon-classifier), check it out!
 
 The repository contains different scripts to create a Pokémon Classifier. You will find scripts to:
 - Collect images of Pokémon on internet to create a dataset.
 - Augment the variety of the dataset by doing random transformations to the images.
 - Fine-tune a classifier with the dataset.
 - Test the classifier.
+
+The final model can be found on [Hugging Face](https://huggingface.co/torresflo/Poke-Model).
 
 ## Getting Started
 
