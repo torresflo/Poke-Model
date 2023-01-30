@@ -44,7 +44,12 @@ This repository is tested on Python 3.7+.
 You should install Poké Model in a [virtual environment](https://docs.python.org/3/library/venv.html). If you're unfamiliar with Python virtual environments, check out the [user guide](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/).
 First, create a virtual environment with the version of Python you're going to use and activate it.
 
-Depending of the scripts you want to execute, you need to instal various packages.
+You can install directly all required packages by using the file `requirements.txt` and doing:
+```bash
+pip install -r requirements.txt
+```
+
+For a more step by step approach, depending of the scripts you want to execute, you need to instal various packages:
 
 **Data Collection**
 
