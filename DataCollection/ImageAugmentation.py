@@ -62,7 +62,6 @@ class ImageAugmenter:
             progressBar.next()
 
             trainingDataFolder = f"{DataSaver.DefaultTrainingDataFolderPath}/{pokemonNumber}"
-            augmentationDataFolder = f"{DataSaver.DefaultAugmentationDataFolderPath}/{pokemonNumber}"
             listOfImagesToAugment = os.listdir(trainingDataFolder)
 
             for imageName in listOfImagesToAugment:

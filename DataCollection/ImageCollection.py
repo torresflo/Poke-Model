@@ -56,10 +56,11 @@ class BraveImageCollector:
 
     def createSearchStrings(self, pokemonNumber):
         pokemonName = self.getPokemonNameFromNumber(pokemonNumber)
-        texts = ['art', 'card', "wallpaper"]
+        texts = ["", "art", "card", "wallpaper", "anime", "plush", "figurine", "pixel"]
+        numberOfImagesToSave = [20, 10, 5, 5, 10, 10, 5, 5]
         searches = []
-        for text in texts:
-            searches.append(f"pokemon {pokemonName} {text}".strip().replace(' ', '+'))
+        for text, number in zip(texts, numberOfImagesToSave):
+            searches.append((f"pokemon {pokemonName} {text}".strip().replace(' ', '+'), number))
         return searches
 
     def getImagesAndTitles(self, numberOfImagesToSave):
@@ -70,9 +71,10 @@ class BraveImageCollector:
             yield imageUrl, title
 
     def trySaveImages(self, pokemonNumber, imagesURLs, titles):
-        pokemonName = self.getPokemonNameFromNumber(pokemonNumber)
+        pokemonName = self.getPokemonNameFromNumber(pokemonNumber).replace("-", " ")
         for imageURL, title in zip(imagesURLs, titles):
-            if pokemonName in title.lower() and imageURL not in self.m_priorURLs:
+            title = title.lower().replace("'", "").replace(".", "")
+            if pokemonName in title and imageURL not in self.m_priorURLs:
                 try:
                     content = requests.get(imageURL).content
                     image = Image.open(BytesIO(content)).convert("RGBA")
@@ -100,6 +102,5 @@ class BraveImageCollector:
             
             self.m_priorURLs = []
             searchStrings = self.createSearchStrings(pokemonNumber)
-            numberOfImagesToSavePerSearchString = (20, 5, 5)
-            for searchString, numberOfImagesToSave in zip(searchStrings, numberOfImagesToSavePerSearchString):
+            for searchString, numberOfImagesToSave in searchStrings:
                 self.requestAndSaveImages(searchString, numberOfImagesToSave, pokemonNumber)
