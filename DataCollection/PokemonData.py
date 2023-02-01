@@ -62,6 +62,7 @@ class Pokedex:
     def loadDataFromJsonFile(self, jsonFileName):
         with open(jsonFileName, 'r', encoding='utf-8') as file:
             self.m_data = json.load(file)
+            self.m_maxPokemonNumber = len(self.m_data.items())
 
     def retrieveDataAndSaveToJson(self):
         self.retrieveData()
